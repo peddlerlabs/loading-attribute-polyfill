@@ -22,11 +22,17 @@ const config = {
 	lazyIframe: 'iframe[loading="lazy"]',
 };
 
+const isMacOrIOS = (function () {
+	const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+	const isAppleDevice = navigator.userAgent.includes('Macintosh');
+	return isIOS || isAppleDevice;
+})();
+
 // Device/browser capabilities object
 const capabilities = {
 	loading: {
-		image: 'loading' in HTMLImageElement.prototype,
-		iframe: 'loading' in HTMLIFrameElement.prototype,
+		image: 'loading' in HTMLImageElement.prototype && !isMacOrIOS,
+		iframe: 'loading' in HTMLIFrameElement.prototype && !isMacOrIOS,
 	},
 	scrolling: 'onscroll' in window,
 };
